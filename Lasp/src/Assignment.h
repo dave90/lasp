@@ -23,8 +23,8 @@ public:
 	Assignment(unsigned size):literals(size,false){};
 
 	void flip(literal l){
-		auto& lp=literals[l];
-		lp=!lp;
+		//TODO we can optimize double []
+		literals[l]=!literals[l];
 	}
 
 	bool getValue(literal l){
