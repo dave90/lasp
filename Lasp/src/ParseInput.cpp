@@ -7,14 +7,17 @@
 
 #include "ParseInput.h"
 
+#include <fstream>
+
 namespace lasp {
 
 
-void ParseInput::pasrseLine(const string& l) {
+void ParseInput::parseLine(const string& l) {
+
+	if(end)return;
 
 	if(parseTable)
 		return addInTable(l);
-
 
 
 	switch (l[0]) {
@@ -32,7 +35,9 @@ void ParseInput::pasrseLine(const string& l) {
 			break;
 
 		case END:
-			parseTable=true;
+			parseTable=!parseTable;
+			if(!parseTable)
+				end=true;
 			break;
 
 		default:
@@ -40,6 +45,26 @@ void ParseInput::pasrseLine(const string& l) {
 	}
 
 }
+
+
+
+void ParseInput::parseFile(string name) {
+
+	  string line;
+	  ifstream myfile (name);
+	  if (myfile.is_open())
+	  {
+	    while ( getline (myfile,line) )
+	    {
+	    	parseLine(line);
+	    }
+	    myfile.close();
+	  }
+
+	  else cerr << "Unable to open file";
+
+}
+
 
 void ParseInput::addInTable(const string&l){
 	istringstream split(l);
@@ -70,10 +95,10 @@ void ParseInput::pasrseConstraint(const string& l) {
     	}
     	lit=atoi(each.c_str());
     	if(literalsNegative){
-    		c.addNegative(lit);
+    		c.addPositive(lit);
     		--literalsNegative;
     	}else{
-       		c.addPositive(lit);
+       		c.addNegative(lit);
     	}
     	count++;
     }
@@ -91,7 +116,7 @@ void ParseInput::pasrseBasicRule(const string& l) {
     	if(!count)continue;
     	if(count==1){
         	lit=atoi(each.c_str());
-        	c.addNegative(lit);
+        	c.addPositive(lit);
         	continue;
     	}
     	if(count==2){
@@ -105,10 +130,10 @@ void ParseInput::pasrseBasicRule(const string& l) {
     	}
     	lit=atoi(each.c_str());
     	if(literalsNegative){
-    		c.addNegative(lit);
+    		c.addPositive(lit);
     		--literalsNegative;
     	}else{
-       		c.addPositive(lit);
+       		c.addNegative(lit);
     	}
     	count++;
     }
@@ -117,6 +142,7 @@ void ParseInput::pasrseBasicRule(const string& l) {
 
 void ParseInput::pasrseChoiceRule(const string& l) {
 }
+
 
 void ParseInput::pasrseDisjRule(const string& l) {
 	istringstream split(l);
@@ -134,7 +160,7 @@ void ParseInput::pasrseDisjRule(const string& l) {
     	}
     	if(heads){
     		lit=atoi(each.c_str());
-    		c.addNegative(lit);
+    		c.addPositive(lit);
     		--heads;
     		continue;
     	}
@@ -149,10 +175,10 @@ void ParseInput::pasrseDisjRule(const string& l) {
     	}
     	lit=atoi(each.c_str());
     	if(literalsNegative){
-    		c.addNegative(lit);
+    		c.addPositive(lit);
     		--literalsNegative;
     	}else{
-       		c.addPositive(lit);
+       		c.addNegative(lit);
     	}
     	count++;
     }

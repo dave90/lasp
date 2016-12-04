@@ -24,7 +24,10 @@ public:
 	}
 
 	string getValue(unsigned k){
-		return table_map[k];
+		auto it=table_map.find(k);
+		if(it==table_map.end())
+			return "";
+		return it->second;
 	}
 
 	static shared_ptr<TableLabel> getInstances(){

@@ -23,7 +23,8 @@ class ParseInput {
 public:
 	ParseInput():parseTable(false),tl(TableLabel::getInstances()),end(false){};
 
-	void pasrseLine(const string& l);
+	void parseFile(string name);
+	void parseLine(const string& l);
 
 	void addInTable(const string&l);
 

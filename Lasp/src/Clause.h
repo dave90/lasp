@@ -9,6 +9,7 @@
 #define CLAUSE_H_
 
 #include "Assignment.h"
+#include "TableLabel.h"
 
 #include <vector>
 #include <iostream>
@@ -45,11 +46,21 @@ public:
 	}
 
 friend ostream& operator<<(ostream& out,const Clause& c){
+	auto tl=TableLabel::getInstances();
+	auto printFunc=[&tl,&out](unsigned k,bool neg){
+		auto lab=tl->getValue(k);
+		string n=(neg)?"-":"";
+		if(lab.empty())
+			out<<n<<k<<" | ";
+		else
+			out<<n<<lab<<" | ";
+	};
 	out<<"( | ";
-	for(auto l:c.pos_literals)
-		out<<l<<" | ";
+	for(auto l:c.pos_literals){
+		printFunc(l,false);
+	}
 	for(auto l:c.neg_literals)
-		out<<"-"<<l<<" | ";
+		printFunc(l,true);
 	out<<")";
 	return out;
 }

@@ -15,9 +15,7 @@ using namespace lasp;
 int main() {
 
 	ParseInput p;
-//	p.pasrseLine("1 1 2 1 1 2");
-//	p.pasrseLine("1 2 2 1 1 2");
-	p.pasrseLine("8 2 3 4 2 0 5 6");
+	p.parseFile("/home/david/git/lasp/Lasp/ground");
 	vector<Clause> formula=move(p.getFormula());
 	for(auto& c:formula)
 		cout<<c<<endl;
