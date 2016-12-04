@@ -22,6 +22,10 @@ public:
 	Assignment(){};
 	Assignment(unsigned size):literals(size,false){};
 
+	void resize(unsigned size){
+		literals.resize(size,false);
+	}
+
 	void flip(literal l){
 		//TODO we can optimize double []
 		literals[l]=!literals[l];

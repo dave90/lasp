@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include <stdlib.h>
+#include <unordered_set>
 
 #include "TableLabel.h"
 #include "Clause.h"
@@ -18,8 +19,7 @@
 namespace lasp {
 
 class ParseInput {
-
-	using formula = vector<Clause>;
+	using formula=Clause::formula;
 public:
 	ParseInput():parseTable(false),tl(TableLabel::getInstances()),end(false){};
 
@@ -36,6 +36,8 @@ public:
 	formula& getFormula(){return form;}
 private:
 	formula form;
+
+
 	bool parseTable;
 	shared_ptr<TableLabel> tl;
 	bool end;

@@ -21,6 +21,9 @@ namespace lasp {
 class Clause {
 	using clause_set = vector<unsigned>;
 public:
+	using formula = vector<Clause>;
+
+
 	Clause(){};
 	Clause(unsigned psize,unsigned nsize){pos_literals.reserve(psize);neg_literals.reserve(nsize);};
 
@@ -43,6 +46,17 @@ public:
 
 	void addNegative(unsigned l){
 		neg_literals.push_back(l);
+	}
+
+	unsigned getSize(){
+		return pos_literals.size()+neg_literals.size();
+	}
+
+	unsigned operator[](unsigned p){
+		auto posize=pos_literals.size();
+		if(p<posize)
+			return pos_literals[p];
+		return neg_literals[posize+p];
 	}
 
 friend ostream& operator<<(ostream& out,const Clause& c){
