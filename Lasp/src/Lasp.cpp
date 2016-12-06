@@ -15,9 +15,11 @@ using namespace lasp;
 int main() {
 
 	ParseInput p;
-	p.parseFile("/home/david/git/lasp/Lasp/ground");
+	p.parseFile("/home/davide/git/lasp/Lasp/ground");
 	vector<Clause> formula=move(p.getFormula());
 	for(auto& c:formula)
 		cout<<c<<endl;
+
+
 	return 0;
 }

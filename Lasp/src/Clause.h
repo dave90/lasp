@@ -48,16 +48,18 @@ public:
 		neg_literals.push_back(l);
 	}
 
+	const clause_set& getPositive(){
+		return pos_literals;
+	}
+
+	const clause_set& getNegative(){
+		return neg_literals;
+	}
+
 	unsigned getSize(){
 		return pos_literals.size()+neg_literals.size();
 	}
 
-	unsigned operator[](unsigned p){
-		auto posize=pos_literals.size();
-		if(p<posize)
-			return pos_literals[p];
-		return neg_literals[posize+p];
-	}
 
 friend ostream& operator<<(ostream& out,const Clause& c){
 	auto tl=TableLabel::getInstances();

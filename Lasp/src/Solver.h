@@ -15,16 +15,15 @@
 namespace lasp {
 
 class Solver {
-	using formula=Clause::formula;
 public:
-	Solver(formula&& f):formula(move(f)){};
+	Solver(Clause::formula&& f):formula(move(f)){};
 
 	void init();
 	bool solve();
 	bool check();
 
 private:
-	formula formula;
+	Clause::formula formula;
 	Assignment ass;
 };
 
