@@ -16,7 +16,7 @@ void Solver::init() {
 	unordered_map<unsigned,bool> lit_value;
 
 	for(auto&c:formula){
-		if(c.getSize()==1){
+		if(c.size()==1){
 			auto& pos=c.getPositive();
 			if(pos.size()){
 				auto value=pos[0];
@@ -58,7 +58,7 @@ void Solver::init() {
 				}else
 					unassigned=l;
 			}
-			if(assigned==c.getSize()-1){
+			if(assigned==c.size()-1){
 				propagate=true;
 				lit_value.insert({abs(unassigned),unassigned>0});
 			}
@@ -68,12 +68,36 @@ void Solver::init() {
 	ass.resize(literals.size());
 	for(auto& v:lit_value)
 		ass.set(v.first,v.second);
+
 }
 
 bool Solver::solve() {
+	vector<unsigned> fc=getFalseClause();
+	unsigned i=0;
+	for(;i<max_iteration&&fc.size();i++){
+		unsigned selClaus=rand()%fc.size();
+		auto& clause=formula[fc[selClaus]];
+		cout<<"SELECT "<<clause<<endl;
+		unsigned max=0;
+		unsigned bestLit=0;
+		for(unsigned j=0;j<clause.size();j++){
+			auto lit=clause.getLit(j);
+			ass.flip(lit);
+			auto num=getNumFalseClause();
+			if(num>max){
+				max=num;
+				bestLit=lit;
+			}
+			ass.flip(lit);
+		}
+		cout<<"FLIP "<<bestLit<<endl;
+		ass.flip(bestLit);
+	}
+	return i!=max_iteration;
 }
 
 bool Solver::check() {
+	return true;
 }
 
 

@@ -56,8 +56,13 @@ public:
 		return neg_literals;
 	}
 
-	unsigned getSize(){
+	unsigned size(){
 		return pos_literals.size()+neg_literals.size();
+	}
+
+	unsigned getLit(unsigned i){
+		if(i<neg_literals.size())return neg_literals[i];
+		return pos_literals[i-neg_literals.size()];
 	}
 
 
